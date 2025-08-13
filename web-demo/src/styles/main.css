@@ -1,0 +1,751 @@
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #fafafa;
+  color: #222;
+  line-height: 1.5;
+}
+
+/* Layout */
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  background: #fff;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.search-container {
+  display: flex;
+  gap: 0.5rem;
+  max-width: 800px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  background: #fff;
+  transition: border-color 0.2s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #666;
+}
+
+.search-button {
+  padding: 0.75rem 1.5rem;
+  background: #333;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.search-button:hover {
+  background: #555;
+}
+
+.search-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Main content area */
+.main-content {
+  flex: 1;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.statistics-panel {
+  width: 300px;
+  background: #f8f8f8;
+  border-right: 1px solid #e5e5e5;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.results-panel {
+  flex: 1;
+  background: #fff;
+  border-right: 1px solid #e5e5e5;
+  transition: margin-right 0.3s ease;
+}
+
+.results-panel.detail-open {
+  margin-right: 400px;
+}
+
+.results-container {
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* Table styles */
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.results-table th,
+.results-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.results-table th {
+  background: #f8f8f8;
+  font-weight: 600;
+  color: #555;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.results-table tr:hover {
+  background: #f9f9f9;
+  cursor: pointer;
+}
+
+.results-table td.title {
+  font-weight: 500;
+  color: #333;
+}
+
+.results-table td.agency {
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.results-table td.date {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.results-table td.status {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.status-posted {
+  color: #16a34a;
+}
+
+.status-forecasted {
+  color: #ca8a04;
+}
+
+.status-closed {
+  color: #dc2626;
+}
+
+/* Detail panel */
+.detail-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 400px;
+  height: 100vh;
+  background: #fff;
+  border-left: 1px solid #e5e5e5;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  z-index: 200;
+  overflow-y: auto;
+}
+
+.detail-panel.open {
+  transform: translateX(0);
+}
+
+.detail-header {
+  padding: 1rem;
+  border-bottom: 1px solid #e5e5e5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8f8f8;
+}
+
+.detail-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.close-button:hover {
+  background: #e5e5e5;
+}
+
+.detail-content {
+  padding: 1rem;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+}
+
+/* Notion-style sections */
+.detail-section {
+  margin-bottom: 2rem;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  overflow: hidden;
+}
+
+.section-header {
+  padding: 1rem 1.5rem 0.5rem 1.5rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.section-header h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 0.25rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.section-subtitle {
+  font-size: 0.85rem;
+  color: #666;
+  font-weight: 400;
+}
+
+/* Info grid and cards */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  padding: 1.5rem;
+}
+
+.info-card {
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 1rem;
+  border: 1px solid #e9ecef;
+  transition: all 0.2s ease;
+}
+
+.info-card.highlight {
+  background: #e8f4fd;
+  border-color: #0969da;
+}
+
+.info-card:hover {
+  background: #f1f3f4;
+  border-color: #d0d7de;
+}
+
+.info-label {
+  font-size: 0.8rem;
+  color: #656d76;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+}
+
+.info-value {
+  font-size: 0.95rem;
+  color: #1f2328;
+  font-weight: 500;
+  word-break: break-word;
+}
+
+.info-value.main-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0969da;
+}
+
+.info-value.large-value {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0969da;
+}
+
+.info-value.status-value {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  background: #dafbe1;
+  color: #116329;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.info-value.deadline-value {
+  color: #cf222e;
+  font-weight: 600;
+}
+
+.info-subvalue {
+  font-size: 0.8rem;
+  color: #656d76;
+  margin-top: 0.25rem;
+}
+
+/* Title and description */
+.title-section {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+}
+
+.title-section h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1f2328;
+  margin: 0 0 0.75rem 0;
+  line-height: 1.4;
+}
+
+.title-section .description {
+  font-size: 0.9rem;
+  color: #656d76;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Contact information */
+.contact-info {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+}
+
+.contact-info h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2328;
+  margin: 0 0 0.75rem 0;
+}
+
+.contact-grid {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.contact-label {
+  font-size: 0.85rem;
+  color: #656d76;
+  font-weight: 500;
+  min-width: 60px;
+}
+
+.contact-value {
+  font-size: 0.9rem;
+  color: #1f2328;
+  font-weight: 500;
+}
+
+/* Eligibility and requirements */
+.eligibility-desc,
+.applicant-types,
+.funding-instruments {
+  padding: 0 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.eligibility-desc h4,
+.applicant-types h4,
+.funding-instruments h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2328;
+  margin: 0 0 0.75rem 0;
+}
+
+.eligibility-desc p {
+  font-size: 0.9rem;
+  color: #656d76;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.type-tags,
+.instrument-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.type-tag,
+.instrument-tag {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  background: #f6f8fa;
+  color: #24292f;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* CFDA and program info */
+.cfda-list {
+  padding: 1.5rem;
+}
+
+.cfda-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  background: #f6f8fa;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.cfda-number {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0969da;
+  min-width: 60px;
+}
+
+.cfda-title {
+  font-size: 0.9rem;
+  color: #1f2328;
+  font-weight: 500;
+}
+
+.program-category {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  font-size: 0.9rem;
+  color: #656d76;
+}
+
+/* Attachments */
+.attachment-folder {
+  padding: 1.5rem;
+}
+
+.attachment-folder h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2328;
+  margin: 0 0 1rem 0;
+}
+
+.attachments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.attachment-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: #f6f8fa;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.attachment-item:hover {
+  background: #f1f3f4;
+  border-color: #0969da;
+}
+
+.attachment-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.attachment-info {
+  flex: 1;
+}
+
+.attachment-name {
+  font-size: 0.9rem;
+  color: #1f2328;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.attachment-meta {
+  font-size: 0.8rem;
+  color: #656d76;
+}
+
+/* External links */
+.external-link {
+  padding: 1.5rem;
+}
+
+.external-link a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: #f6f8fa;
+  color: #0969da;
+  text-decoration: none;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.external-link a:hover {
+  background: #e8f4fd;
+  border-color: #0969da;
+}
+
+/* Related opportunities */
+.related-opportunities {
+  padding: 1.5rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.related-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  background: #f6f8fa;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.related-item:hover {
+  background: #e8f4fd;
+  border-color: #0969da;
+  cursor: pointer;
+}
+
+.related-number {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #0969da;
+}
+
+.related-id {
+  font-size: 0.8rem;
+  color: #656d76;
+}
+
+/* Agency related opportunities */
+.agency-related-list {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.agency-related-item {
+  padding: 1rem;
+  background: #f6f8fa;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.agency-related-item:hover {
+  background: #e8f4fd;
+  border-color: #0969da;
+  cursor: pointer;
+}
+
+.related-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1f2328;
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.related-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.related-dates {
+  font-size: 0.8rem;
+  color: #656d76;
+}
+
+@media (max-width: 768px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+  
+  .section-header,
+  .title-section,
+  .contact-info,
+  .eligibility-desc,
+  .applicant-types,
+  .funding-instruments,
+  .cfda-list,
+  .program-category,
+  .attachment-folder,
+  .external-link,
+  .related-opportunities,
+  .agency-related-list {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Loading and empty states */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  color: #666;
+  font-style: italic;
+}
+
+.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  color: #999;
+  font-style: italic;
+}
+
+/* Statistics panel styles */
+.statistics-header {
+  padding: 1rem;
+  border-bottom: 1px solid #e5e5e5;
+  background: #f0f0f0;
+}
+
+.statistics-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.statistics-content {
+  padding: 0.5rem;
+}
+
+.stat-section {
+  margin-bottom: 1.5rem;
+}
+
+.stat-section h4 {
+  margin: 0 0 0.5rem 0;
+  padding: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #555;
+  background: #fff;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0.5rem;
+  margin-bottom: 0.2rem;
+  font-size: 0.8rem;
+  background: #fff;
+  border-radius: 3px;
+}
+
+.stat-item.clickable {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.stat-item.clickable:hover {
+  background: #f0f0f0;
+}
+
+.stat-label {
+  color: #666;
+  font-weight: 500;
+}
+
+.stat-value {
+  color: #333;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.stat-item small {
+  color: #999;
+  font-style: italic;
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+  .statistics-panel {
+    width: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem;
+  }
+  
+  .statistics-panel {
+    display: none;
+  }
+  
+  .results-panel.detail-open {
+    margin-right: 0;
+  }
+  
+  .detail-panel {
+    width: 100vw;
+  }
+}

@@ -1,1 +1,0 @@
-# Grant Scraper Demo Package
