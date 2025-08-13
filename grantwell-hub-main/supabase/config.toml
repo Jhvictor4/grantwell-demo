@@ -1,0 +1,8 @@
+project_id = "dkdwjnigohgfierszybn"
+
+[functions.create-grant-folders]
+verify_jwt = true
+
+[functions.docusign-webhook]
+verify_jwt = false
+
