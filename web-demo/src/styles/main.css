@@ -1025,3 +1025,189 @@ body {
     width: 100vw;
   }
 }
+
+/* AI Agent Chat Styles */
+.chat-message.agent {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px 12px 12px 4px;
+}
+
+.chat-message.agent .message-content {
+  color: white;
+}
+
+.chat-message.error {
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  border-radius: 8px;
+}
+
+.chat-message.thinking {
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.agent-response {
+  line-height: 1.6;
+}
+
+.agent-response h4 {
+  margin: 0.5rem 0;
+  color: #f1f5f9;
+  font-size: 1.1rem;
+}
+
+.agent-response p {
+  margin: 0.5rem 0;
+}
+
+.agent-response li {
+  margin: 0.25rem 0;
+  list-style-type: disc;
+  margin-left: 1.5rem;
+}
+
+.agent-response strong {
+  color: #f8fafc;
+}
+
+/* State Results Styles */
+.state-loading {
+  text-align: center;
+  padding: 2rem;
+  color: #6b7280;
+}
+
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #f3f4f6;
+  border-top: 3px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-detail {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.state-results {
+  padding: 1rem;
+}
+
+.state-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.discovery-badge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.summary-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.summary-card h5 {
+  margin-bottom: 0.5rem;
+  color: #374151;
+}
+
+.analysis-content {
+  margin-bottom: 1.5rem;
+}
+
+.methodology {
+  background: #fef3c7;
+  border: 1px solid #fbbf24;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.methodology h6 {
+  margin-bottom: 0.5rem;
+  color: #92400e;
+}
+
+.methodology p {
+  color: #92400e;
+  margin-bottom: 0.5rem;
+}
+
+.methodology ul {
+  margin-left: 1.5rem;
+  color: #92400e;
+}
+
+.methodology li {
+  margin-bottom: 0.25rem;
+}
+
+.next-steps {
+  background: #ecfdf5;
+  border: 1px solid #10b981;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.next-steps h5 {
+  margin-bottom: 0.5rem;
+  color: #047857;
+}
+
+.next-steps ul {
+  margin-left: 1.5rem;
+  color: #047857;
+}
+
+.next-steps li {
+  margin-bottom: 0.25rem;
+}
+
+.state-error {
+  text-align: center;
+  padding: 2rem;
+  color: #dc2626;
+}
+
+.error-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.error-detail {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-top: 0.5rem;
+}
