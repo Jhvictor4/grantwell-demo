@@ -14,16 +14,21 @@ export interface SearchFilters {
 export class SearchBar {
   private container: HTMLElement;
   private input: HTMLInputElement;
+  private stateSelect: HTMLSelectElement | null;
   private button: HTMLButtonElement;
   private showFiltersButton: HTMLButtonElement;
   private filtersPanel: HTMLElement;
   private filtersVisible: boolean = false;
+  private isStateMode: boolean = false;
   private onSearch: (filters: SearchFilters) => void;
+  private onStateSearch?: (state: string) => void;
 
-  constructor(onSearch: (filters: SearchFilters) => void) {
+  constructor(onSearch: (filters: SearchFilters) => void, onStateSearch?: (state: string) => void) {
     this.onSearch = onSearch;
+    this.onStateSearch = onStateSearch;
     this.container = this.createElement();
     this.input = this.container.querySelector('.search-input') as HTMLInputElement;
+    this.stateSelect = this.container.querySelector('.state-select') as HTMLSelectElement | null;
     this.button = this.container.querySelector('.search-button') as HTMLButtonElement;
     this.showFiltersButton = this.container.querySelector('.show-filters-button') as HTMLButtonElement;
     this.filtersPanel = this.container.querySelector('.filters-panel') as HTMLElement;
@@ -35,6 +40,10 @@ export class SearchBar {
     container.className = 'search-container';
     container.innerHTML = `
       <div class="search-main">
+        <select class="state-select" style="display:none; min-width: 220px;">
+          <option value="">Select a State</option>
+          ${this.getStates().map(s => `<option value="${s}">${s}</option>`).join('')}
+        </select>
         <input 
           type="text" 
           class="search-input" 
@@ -168,18 +177,26 @@ export class SearchBar {
 
   private setupEventListeners(): void {
     this.button.addEventListener('click', () => {
-      this.handleSearch();
+      if (this.isStateMode) {
+        this.handleStateSearch();
+      } else {
+        this.handleSearch();
+      }
     });
 
-    this.input.addEventListener('keypress', (e) => {
+    this.input.addEventListener('keydown', (e: KeyboardEvent) => {
       if (e.key === 'Enter') {
-        this.handleSearch();
+        if (this.isStateMode) {
+          this.handleStateSearch();
+        } else {
+          this.handleSearch();
+        }
       }
     });
 
     this.input.addEventListener('input', () => {
       // Auto-search on empty input to show all grants
-      if (this.input.value.trim() === '') {
+      if (!this.isStateMode && this.input.value.trim() === '') {
         this.handleSearch();
       }
     });
@@ -202,10 +219,10 @@ export class SearchBar {
     });
 
     // Enter key on filter inputs
-    const filterInputs = this.container.querySelectorAll('.filter-input, .filter-select');
+    const filterInputs = this.container.querySelectorAll('.filter-input, .filter-select') as NodeListOf<HTMLElement>;
     filterInputs.forEach(input => {
-      input.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
+      input.addEventListener('keydown', (e) => {
+        if ((e as KeyboardEvent).key === 'Enter') {
           this.handleSearch();
         }
       });
@@ -241,23 +258,23 @@ export class SearchBar {
   private getFilters(): SearchFilters {
     const getSelectValue = (id: string): string => {
       const select = this.container.querySelector(`#${id}`) as HTMLSelectElement;
-      return select.value;
+      return select?.value || '';
     };
 
     const getInputValue = (id: string): string => {
       const input = this.container.querySelector(`#${id}`) as HTMLInputElement;
-      return input.value.trim();
+      return input?.value?.trim() || '';
     };
 
     return {
       keyword: this.input.value.trim(),
-      cfda: getInputValue('cfda-input') || null,
-      agencies: getSelectValue('agencies-select') || null,
+      cfda: getInputValue('cfda-input'),
+      agencies: getSelectValue('agencies-select'),
       sortBy: getSelectValue('sort-select'),
       rows: parseInt(getSelectValue('rows-select')),
-      eligibilities: getSelectValue('eligibilities-select') || null,
-      fundingCategories: getSelectValue('funding-categories-select') || null,
-      fundingInstruments: getSelectValue('funding-instruments-select') || null,
+      eligibilities: getSelectValue('eligibilities-select'),
+      fundingCategories: getSelectValue('funding-categories-select'),
+      fundingInstruments: getSelectValue('funding-instruments-select'),
       dateRange: getSelectValue('date-range-select'),
       oppStatuses: getSelectValue('status-select')
     };
@@ -266,6 +283,12 @@ export class SearchBar {
   private handleSearch(): void {
     const filters = this.getFilters();
     this.onSearch(filters);
+  }
+
+  private handleStateSearch(): void {
+    const state = this.stateSelect?.value || '';
+    if (!state) return;
+    if (this.onStateSearch) this.onStateSearch(state);
   }
 
   setLoading(isLoading: boolean): void {
@@ -281,5 +304,25 @@ export class SearchBar {
 
   focus(): void {
     this.input.focus();
+  }
+
+  setMode(isStateMode: boolean): void {
+    this.isStateMode = isStateMode;
+    // Toggle visibility and placeholders
+    if (this.stateSelect) {
+      this.stateSelect.style.display = isStateMode ? 'block' : 'none';
+    }
+    this.input.placeholder = isStateMode
+      ? 'Optional: ask a question (disabled for now)'
+      : 'Search grants by keyword...';
+    // Disable filters in state mode
+    this.showFiltersButton.style.display = isStateMode ? 'none' : 'inline-block';
+    this.filtersPanel.style.display = isStateMode ? 'none' : (this.filtersVisible ? 'block' : 'none');
+  }
+
+  private getStates(): string[] {
+    return [
+      'Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','District of Columbia','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'
+    ];
   }
 }
