@@ -1,22 +1,23 @@
 import type { SearchRequest, SearchResponse, DetailResponse, KNNResponse, GrantDetail } from '../types/grants';
+import type { SearchFilters } from '../components/SearchBar';
 
 const SEARCH_API = 'https://micro.grants.gov/rest/opportunities/search';
 const DETAIL_API = 'https://apply07.grants.gov/grantsws/rest/opportunity/details';
 const KNN_API = 'https://apply07.grants.gov/grantsws/rest/knn/relatedOpps';
 
 export class GrantsApiService {
-  static async searchGrants(keyword: string = ''): Promise<SearchResponse> {
+  static async searchGrants(filters: SearchFilters): Promise<SearchResponse> {
     const request: SearchRequest = {
-      keyword: keyword || null,
-      cfda: null,
-      agencies: null,
-      sortBy: 'openDate|desc',
-      rows: 5000,
-      eligibilities: null,
-      fundingCategories: null,
-      fundingInstruments: null,
-      dateRange: '',
-      oppStatuses: 'forecasted|posted'
+      keyword: filters.keyword || null,
+      cfda: filters.cfda,
+      agencies: filters.agencies,
+      sortBy: filters.sortBy,
+      rows: filters.rows,
+      eligibilities: filters.eligibilities,
+      fundingCategories: filters.fundingCategories,
+      fundingInstruments: filters.fundingInstruments,
+      dateRange: filters.dateRange,
+      oppStatuses: filters.oppStatuses
     };
 
     try {

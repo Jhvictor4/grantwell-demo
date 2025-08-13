@@ -1,5 +1,5 @@
 import './styles/main.css';
-import { SearchBar } from './components/SearchBar';
+import { SearchBar, type SearchFilters } from './components/SearchBar';
 import { ResultsTable } from './components/ResultsTable';
 import { DetailPanel } from './components/DetailPanel';
 import { StatisticsPanel } from './components/StatisticsPanel';
@@ -18,7 +18,7 @@ class GrantsApp {
     this.setupLayout();
     
     // Initialize components
-    this.searchBar = new SearchBar((query) => this.handleSearch(query));
+    this.searchBar = new SearchBar((filters) => this.handleSearch(filters));
     this.resultsTable = new ResultsTable((grant) => this.handleGrantClick(grant));
     this.detailPanel = new DetailPanel();
     this.statisticsPanel = new StatisticsPanel((filterType, filterValue) => 
@@ -67,17 +67,29 @@ class GrantsApp {
   }
 
   private async loadInitialData(): Promise<void> {
-    // Load all grants initially
-    await this.handleSearch('');
+    // Load all grants initially with default filters
+    const defaultFilters: SearchFilters = {
+      keyword: '',
+      cfda: null,
+      agencies: null,
+      sortBy: 'openDate|desc',
+      rows: 5000,
+      eligibilities: null,
+      fundingCategories: null,
+      fundingInstruments: null,
+      dateRange: '',
+      oppStatuses: 'forecasted|posted'
+    };
+    await this.handleSearch(defaultFilters);
   }
 
-  private async handleSearch(query: string): Promise<void> {
+  private async handleSearch(filters: SearchFilters): Promise<void> {
     try {
       this.searchBar.setLoading(true);
       this.resultsTable.showLoading();
       this.statisticsPanel.showLoading();
 
-      const response = await GrantsApiService.searchGrants(query);
+      const response = await GrantsApiService.searchGrants(filters);
       
       // Handle error messages in response
       if (response.errorMsgs && response.errorMsgs.length > 0) {
