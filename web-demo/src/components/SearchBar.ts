@@ -315,6 +315,7 @@ export class SearchBar {
     this.input.placeholder = isStateMode
       ? 'Optional: ask a question (disabled for now)'
       : 'Search grants by keyword...';
+    this.input.style.display = isStateMode ? 'none' : 'block';
     // Disable filters in state mode
     this.showFiltersButton.style.display = isStateMode ? 'none' : 'inline-block';
     this.filtersPanel.style.display = isStateMode ? 'none' : (this.filtersVisible ? 'block' : 'none');
