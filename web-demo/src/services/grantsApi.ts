@@ -1,4 +1,4 @@
-import type { SearchRequest, SearchResponse, DetailResponse, KNNResponse } from '../types/grants';
+import type { SearchRequest, SearchResponse, DetailResponse, KNNResponse, GrantDetail } from '../types/grants';
 
 const SEARCH_API = 'https://micro.grants.gov/rest/opportunities/search';
 const DETAIL_API = 'https://apply07.grants.gov/grantsws/rest/opportunity/details';
@@ -63,8 +63,14 @@ export class GrantsApiService {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data: DetailResponse = await response.json();
-      return data;
+      const data: GrantDetail = await response.json();
+      
+      // Wrap the direct response in the expected format
+      return {
+        data: data,
+        errorcode: 0,
+        msg: 'Success'
+      };
     } catch (error) {
       console.error('Error fetching grant details:', error);
       throw error;

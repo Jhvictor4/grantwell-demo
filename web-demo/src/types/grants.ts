@@ -107,41 +107,43 @@ export interface Synopsis {
   version: number;
   agencyCode: string;
   agencyName: string;
-  agencyPhone: string;
-  agencyAddressDesc: string;
+  agencyPhone?: string;
+  agencyAddressDesc?: string;
   agencyDetails: AgencyDetails;
   topAgencyDetails: AgencyDetails;
-  agencyContactPhone: string;
-  agencyContactName: string;
-  agencyContactDesc: string;
-  agencyContactEmail: string;
-  agencyContactEmailDesc: string;
+  agencyContactPhone?: string;
+  agencyContactName?: string;
+  agencyContactDesc?: string;
+  agencyContactEmail?: string;
+  agencyContactEmailDesc?: string;
   synopsisDesc: string;
   responseDate: string;
-  responseDateDesc: string;
-  fundingDescLinkUrl: string;
-  fundingDescLinkDesc: string;
+  responseDateDesc?: string;
+  fundingDescLinkUrl?: string;
+  fundingDescLinkDesc?: string;
   postingDate: string;
   archiveDate: string;
-  fundingActivityCategoryDesc: string;
-  costSharing: boolean;
-  numberOfAwards: string;
-  estimatedFunding: string;
-  estimatedFundingFormatted: string;
-  awardCeiling: string;
-  awardCeilingFormatted: string;
-  awardFloor: string;
-  awardFloorFormatted: string;
-  applicantEligibilityDesc: string;
-  applicantTypes: ApplicantType[];
-  fundingInstruments: FundingInstrument[];
-  fundingActivityCategories: FundingActivityCategory[];
-  responseDateStr: string;
-  postingDateStr: string;
-  archiveDateStr: string;
-  createTimeStampStr: string;
+  fundingActivityCategoryDesc?: string;
+  costSharing?: boolean;
+  numberOfAwards?: string;
+  estimatedFunding?: string;
+  estimatedFundingFormatted?: string;
+  awardCeiling?: string;
+  awardCeilingFormatted?: string;
+  awardFloor?: string;
+  awardFloorFormatted?: string;
+  applicantEligibilityDesc?: string;
+  applicantTypes?: ApplicantType[];
+  fundingInstruments?: FundingInstrument[];
+  fundingActivityCategories?: FundingActivityCategory[];
+  responseDateStr?: string;
+  postingDateStr?: string;
+  archiveDateStr?: string;
+  createTimeStampStr?: string;
   createdDate: string;
   lastUpdatedDate: string;
+  sendEmail?: string;
+  createTimeStamp?: string;
 }
 
 export interface RelatedOpp {
@@ -155,6 +157,14 @@ export interface RelatedOpp {
   comments: string;
 }
 
+export interface SynopsisDocumentURL {
+  id: number;
+  opportunityId: number;
+  docUrl: string;
+  description: string;
+  createdDate: string;
+}
+
 export interface GrantDetail {
   id: number;
   revision: number;
@@ -162,9 +172,9 @@ export interface GrantDetail {
   opportunityTitle: string;
   owningAgencyCode: string;
   listed: string;
-  publisherUid: string;
-  modifiedComments: string;
-  flag2006: string;
+  publisherUid?: string;
+  modifiedComments?: string;
+  flag2006?: string;
   opportunityCategory: {
     category: string;
     description: string;
@@ -172,26 +182,26 @@ export interface GrantDetail {
   synopsis: Synopsis;
   agencyDetails: AgencyDetails;
   topAgencyDetails: AgencyDetails;
-  synopsisAttachmentFolders: SynopsisAttachmentFolder[];
-  synopsisDocumentURLs: any[];
-  synAttChangeComments: any[];
-  cfdas: CFDA[];
-  opportunityHistoryDetails: any[];
-  opportunityPkgs: any[];
-  closedOpportunityPkgs: any[];
-  originalDueDate: string;
-  originalDueDateDesc: string;
-  synopsisModifiedFields: any[];
-  forecastModifiedFields: any[];
-  errorMessages: any[];
-  synPostDateInPast: boolean;
+  synopsisAttachmentFolders?: SynopsisAttachmentFolder[];
+  synopsisDocumentURLs?: SynopsisDocumentURL[];
+  synAttChangeComments?: any[];
+  cfdas?: CFDA[];
+  opportunityHistoryDetails?: any[];
+  opportunityPkgs?: any[];
+  closedOpportunityPkgs?: any[];
+  originalDueDate?: string;
+  originalDueDateDesc?: string;
+  synopsisModifiedFields?: any[];
+  forecastModifiedFields?: any[];
+  errorMessages?: any[];
+  synPostDateInPast?: boolean;
   docType: string;
-  forecastHistCount: number;
-  synopsisHistCount: number;
-  assistCompatible: boolean;
-  assistURL: string;
-  relatedOpps: RelatedOpp[];
-  draftMode: string;
+  forecastHistCount?: number;
+  synopsisHistCount?: number;
+  assistCompatible?: boolean;
+  assistURL?: string;
+  relatedOpps?: RelatedOpp[];
+  draftMode?: string;
 }
 
 export interface DetailResponse {

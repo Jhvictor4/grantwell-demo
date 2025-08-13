@@ -345,16 +345,23 @@ export class DetailPanel {
       ` : ''}
 
       <!-- Additional Links -->
-      ${detail.synopsis?.fundingDescLinkUrl ? `
+      ${(detail.synopsis?.fundingDescLinkUrl || (detail.synopsisDocumentURLs && detail.synopsisDocumentURLs.length > 0)) ? `
         <div class="detail-section">
           <div class="section-header">
             <h3>🔗 Additional Information</h3>
             <span class="section-subtitle">External resources and links</span>
           </div>
           <div class="external-link">
-            <a href="${detail.synopsis.fundingDescLinkUrl}" target="_blank" rel="noopener noreferrer">
-              🌐 ${detail.synopsis.fundingDescLinkDesc || 'View Full Announcement'}
-            </a>
+            ${detail.synopsis?.fundingDescLinkUrl ? `
+              <a href="${detail.synopsis.fundingDescLinkUrl}" target="_blank" rel="noopener noreferrer">
+                🌐 ${detail.synopsis.fundingDescLinkDesc || 'View Full Announcement'}
+              </a>
+            ` : ''}
+            ${detail.synopsisDocumentURLs ? detail.synopsisDocumentURLs.map(docUrl => `
+              <a href="${docUrl.docUrl}" target="_blank" rel="noopener noreferrer">
+                📄 ${docUrl.description}
+              </a>
+            `).join('') : ''}
           </div>
         </div>
       ` : ''}
