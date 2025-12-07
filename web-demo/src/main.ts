@@ -236,7 +236,7 @@ class GrantsApp {
       sortBy: 'openDate|desc',
       rows: 5000,
       eligibilities: null,
-      fundingCategories: null,
+      fundingCategories: 'LJL',
       fundingInstruments: null,
       dateRange: '',
       oppStatuses: 'forecasted|posted'
